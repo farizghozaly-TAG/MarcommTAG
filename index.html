@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marcom DiRepotIn — Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root{
+ --bg:#0b0d12;--panel:#11141b;--panel2:#171b23;--line:#252a34;--text:#f5f7fb;
+ --muted:#8d96a8;--accent:#9cff4a;--accent2:#d5ff9d;--danger:#ff6b7a;--warn:#ffc857;
+}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 75% -10%,#27331e 0,transparent 32%),var(--bg);color:var(--text);font:14px Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
+button{font:inherit}.app{display:flex;min-height:100vh}.sidebar{width:250px;border-right:1px solid var(--line);padding:26px 16px;position:fixed;top:0;bottom:0;background:rgba(11,13,18,.88);backdrop-filter:blur(18px);z-index:4}
+.logo{display:flex;gap:11px;align-items:center;padding:5px 10px 28px}.logo-mark{width:35px;height:35px;border-radius:11px;background:var(--accent);color:#10130c;display:grid;place-items:center;font-weight:900}.logo b{font-size:16px}.logo span{color:var(--accent)}
+.nav-title{font-size:10px;color:#596173;letter-spacing:1.5px;margin:18px 11px 9px;text-transform:uppercase}.nav button{width:100%;border:0;background:transparent;color:#aeb5c3;text-align:left;padding:11px 12px;border-radius:10px;cursor:pointer;margin:2px 0}.nav button:hover,.nav button.active{background:#1a1f28;color:#fff}.nav button.active{box-shadow:inset 3px 0 var(--accent)}.icon{display:inline-block;width:25px;color:#7f899a}.add{border:1px dashed #414957!important;margin-top:12px!important}.main{margin-left:250px;width:calc(100% - 250px);padding:28px 34px 50px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}.crumb{color:var(--muted);font-size:12px}.top-actions{display:flex;gap:10px}.pill,.select{background:#151921;border:1px solid var(--line);color:#cdd3de;border-radius:10px;padding:9px 12px}.avatar{width:35px;height:35px;border-radius:50%;background:linear-gradient(135deg,#d5ff9d,#697c51);display:grid;place-items:center;color:#17200e;font-weight:800}.hero{display:flex;justify-content:space-between;align-items:end;margin-bottom:25px}.hero h1{font-size:31px;margin:5px 0 7px;letter-spacing:-1px}.hero p{color:var(--muted);margin:0}.date{color:#a8b0bf;background:#151921;border:1px solid var(--line);padding:10px 13px;border-radius:10px}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:linear-gradient(180deg,rgba(24,28,37,.92),rgba(16,19,25,.92));border:1px solid var(--line);border-radius:16px;padding:18px}.stat-label{color:#8e97a8;font-size:12px}.stat{font-size:28px;font-weight:750;margin:9px 0}.trend{font-size:11px}.up{color:var(--accent)}.down{color:var(--danger)}.section-grid{display:grid;grid-template-columns:1.45fr .8fr;gap:14px;margin-top:14px}.card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.card-head h3{margin:0;font-size:14px}.sub{color:var(--muted);font-size:11px}.chart-wrap{height:260px}.sla{display:flex;align-items:center;gap:22px}.ring{width:125px;height:125px;border-radius:50%;background:conic-gradient(var(--accent) 0 94%,#282e39 94% 100%);display:grid;place-items:center}.ring:after{content:"";width:91px;height:91px;background:var(--panel);border-radius:50%;position:absolute}.ring b{z-index:1;font-size:23px}.legend{display:grid;gap:11px}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-right:7px}.dot.gray{background:#555d6b}.timeline{display:grid;gap:12px}.row{display:grid;grid-template-columns:76px 1fr auto;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid #222731}.row:last-child{border:0}.time{color:#7e8798;font-size:11px}.work b{font-size:12px}.work small{display:block;color:#70798b;margin-top:4px}.tag{font-size:10px;padding:5px 8px;border-radius:7px;background:#202631;color:#bfc7d5}.tag.done{color:#bafc82;background:#1c2b18}.tag.late{color:#ff9aa5;background:#301b21}.page{display:none}.page.active{display:block}.table{width:100%;border-collapse:collapse}.table th,.table td{text-align:left;padding:13px 10px;border-bottom:1px solid #242933;font-size:12px}.table th{color:#747e90;font-weight:500}.progress{height:6px;background:#272d38;border-radius:9px;overflow:hidden}.progress i{display:block;height:100%;background:var(--accent)}.metric-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}.big{font-size:23px;font-weight:750;margin-top:8px}.filters{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}.filters input,.filters select{background:#151921;color:#ddd;border:1px solid var(--line);border-radius:9px;padding:9px}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.day{min-height:90px;border:1px solid var(--line);border-radius:10px;padding:8px;background:#12161d}.day em{font-style:normal;color:#697284;font-size:11px}.event{font-size:10px;background:#202a1c;color:#caff9e;border-radius:5px;padding:5px;margin-top:7px}.mobile{display:none}
+@media(max-width:900px){.sidebar{width:205px}.main{margin-left:205px;width:calc(100% - 205px);padding:22px}.grid4{grid-template-columns:repeat(2,1fr)}.section-grid{grid-template-columns:1fr}.metric-cards{grid-template-columns:1fr 1fr}.mobile{display:block}}
+@media(max-width:620px){.sidebar{display:none}.main{margin-left:0;width:100%;padding:18px}.grid4,.metric-cards{grid-template-columns:1fr 1fr}.hero h1{font-size:25px}.top .crumb{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+ <div class="logo"><div class="logo-mark">M</div><b>Marcom <span>DiRepotIn</span></b></div>
+ <div class="nav-title">Workspace</div>
+ <div class="nav">
+  <button class="active" onclick="show('home',this)"><span class="icon">⌂</span> Home</button>
+  <button onclick="show('timeline',this)"><span class="icon">◷</span> Timeline</button>
+  <button onclick="show('database',this)"><span class="icon">◎</span> Database Konsumen</button>
+  <button onclick="show('social',this)"><span class="icon">◉</span> Social Media</button>
+  <div class="nav-title">Production</div>
+  <button onclick="show('editing',this)"><span class="icon">▣</span> SLA Editing Video</button>
+  <button onclick="show('design',this)"><span class="icon">◇</span> SLA Desain</button>
+  <button class="add" onclick="alert('Modul baru siap ditambahkan ke struktur dashboard.')"><span class="icon">＋</span> Tambah Menu</button>
+ </div>
+ <div style="position:absolute;bottom:25px;left:20px;right:20px;color:#687184;font-size:11px">v0.1 Prototype · Data Demo</div>
+</aside>
+<main class="main">
+ <div class="top"><div class="crumb">MARCOM / <b id="crumb">HOME</b></div><div class="top-actions"><div class="pill">⌕ Search</div><div class="avatar">M</div></div></div>
+
+<section id="home" class="page active">
+ <div class="hero"><div><div class="sub">Thursday, 17 September 2026</div><h1>Good afternoon, Marcom Team. 👋</h1><p>Semua report, satu tempat. Biar nggak <i>DiRepotIn</i>.</p></div><div class="date">September 2026 ▾</div></div>
+ <div class="grid4">
+  <div class="card"><div class="stat-label">Total Pekerjaan</div><div class="stat">128</div><div class="trend up">↑ 12.4% vs last month</div></div>
+  <div class="card"><div class="stat-label">SLA Performance</div><div class="stat">94.2%</div><div class="trend up">↑ 3.8% improvement</div></div>
+  <div class="card"><div class="stat-label">Database Konsumen</div><div class="stat">2,481</div><div class="trend up">↑ 184 new leads</div></div>
+  <div class="card"><div class="stat-label">Social Engagement</div><div class="stat">8.7%</div><div class="trend up">↑ 1.6% this month</div></div>
+ </div>
+ <div class="section-grid">
+  <div class="card"><div class="card-head"><div><h3>Performance Overview</h3><span class="sub">Production & social performance</span></div><select class="select"><option>Last 6 Months</option></select></div><div class="chart-wrap"><canvas id="overview"></canvas></div></div>
+  <div class="card"><div class="card-head"><div><h3>SLA Achievement</h3><span class="sub">On-time production</span></div></div><div class="sla"><div class="ring"><b>94%</b></div><div class="legend"><span><i class="dot"></i>On Time <b>120</b></span><span><i class="dot gray"></i>Late <b>8</b></span><small class="sub">Target SLA: 90%</small></div></div></div>
+ </div>
+ <div class="card" style="margin-top:14px"><div class="card-head"><div><h3>Recent Activity</h3><span class="sub">Update pekerjaan terbaru</span></div><button class="select" onclick="show('timeline',document.querySelectorAll('.nav button')[1])">View timeline →</button></div><div class="timeline">
+  <div class="row"><span class="time">10:42</span><div class="work"><b>Reels Keandra Park — Final Cut</b><small>Editing · Fariz</small></div><span class="tag done">DONE</span></div>
+  <div class="row"><span class="time">09:18</span><div class="work"><b>Poster Campaign Midnight Sale</b><small>Design · Raka</small></div><span class="tag">ON PROGRESS</span></div>
+  <div class="row"><span class="time">08:51</span><div class="work"><b>Social Media Weekly Report</b><small>Reporting · Naya</small></div><span class="tag done">DONE</span></div>
+ </div></div>
+</section>
+
+<section id="timeline" class="page"><div class="hero"><div><div class="sub">WORKFLOW</div><h1>Timeline</h1><p>Lihat seluruh aktivitas dan deadline dalam satu view.</p></div></div>
+<div class="filters"><input placeholder="Search project..."><select><option>All PIC</option><option>Fariz</option><option>Raka</option><option>Naya</option></select><select><option>All Status</option><option>Done</option><option>On Progress</option><option>Late</option></select></div>
+<div class="card"><div class="calendar">
+<script>
+const days=['M','T','W','T','F','S','S']; days.forEach(x=>document.write('<div class="day" style="min-height:auto;background:#171b23"><em>'+x+'</em></div>'));
+for(let i=1;i<=30;i++){let ev=i==17?'Reels Keandra':i==18?'Poster TAG':i==19?'Report Social':i==21?'Edit Video':'';document.write('<div class="day"><em>'+i+'</em>'+(ev?'<div class="event">'+ev+'</div>':'')+'</div>')}
+</script></div></div></section>
+
+<section id="database" class="page"><div class="hero"><div><div class="sub">CRM REPORT</div><h1>Database Konsumen</h1><p>Monitor pertumbuhan database dan kualitas leads.</p></div></div>
+<div class="metric-cards"><div class="card"><div class="stat-label">Total Database</div><div class="big">2,481</div><span class="trend up">+184 bulan ini</span></div><div class="card"><div class="stat-label">Leads Baru</div><div class="big">184</div><span class="trend up">+9.2%</span></div><div class="card"><div class="stat-label">Conversion</div><div class="big">12.8%</div><span class="trend up">+2.1%</span></div></div>
+<div class="section-grid"><div class="card"><div class="card-head"><h3>Lead Growth</h3><span class="sub">6 months</span></div><div class="chart-wrap"><canvas id="leads"></canvas></div></div><div class="card"><div class="card-head"><h3>Lead Source</h3></div><div class="chart-wrap"><canvas id="source"></canvas></div></div></div></section>
+
+<section id="social" class="page"><div class="hero"><div><div class="sub">CONTENT ANALYTICS</div><h1>Social Media Report</h1><p>Performance Instagram & TikTok.</p></div></div>
+<div class="metric-cards"><div class="card"><div class="stat-label">Views</div><div class="big">1.84M</div><span class="trend up">↑ 18.4%</span></div><div class="card"><div class="stat-label">Engagement</div><div class="big">8.7%</div><span class="trend up">↑ 1.6%</span></div><div class="card"><div class="stat-label">Followers</div><div class="big">48.2K</div><span class="trend up">+2,140</span></div></div>
+<div class="card"><div class="card-head"><h3>Social Performance</h3><select class="select"><option>Instagram + TikTok</option></select></div><div class="chart-wrap"><canvas id="socialChart"></canvas></div></div></section>
+
+<section id="editing" class="page"><div class="hero"><div><div class="sub">PRODUCTION / VIDEO</div><h1>SLA Editing Video</h1><p>Ketepatan waktu pengerjaan video.</p></div></div>
+<div class="metric-cards"><div class="card"><div class="stat-label">Total Request</div><div class="big">64</div></div><div class="card"><div class="stat-label">On Time</div><div class="big">60 <span class="trend up">93.8%</span></div></div><div class="card"><div class="stat-label">Avg. Turnaround</div><div class="big">1.8 <span class="sub">days</span></div></div></div>
+<div class="card"><table class="table"><tr><th>PROJECT</th><th>PIC</th><th>REQUEST</th><th>DEADLINE</th><th>STATUS</th><th>SLA</th></tr>
+<tr><td>Keandra Reels #21</td><td>Fariz</td><td>15 Sep</td><td>16 Sep</td><td><span class="tag done">DONE</span></td><td>100%</td></tr><tr><td>Brand Film TAG</td><td>Fariz</td><td>16 Sep</td><td>18 Sep</td><td><span class="tag">ON PROGRESS</span></td><td>—</td></tr><tr><td>Promo Video KLS</td><td>Dimas</td><td>12 Sep</td><td>14 Sep</td><td><span class="tag late">LATE</span></td><td>0%</td></tr></table></div></section>
+
+<section id="design" class="page"><div class="hero"><div><div class="sub">PRODUCTION / DESIGN</div><h1>SLA Desain</h1><p>Monitor ketepatan pengerjaan seluruh kebutuhan desain.</p></div></div>
+<div class="metric-cards"><div class="card"><div class="stat-label">Total Request</div><div class="big">64</div></div><div class="card"><div class="stat-label">On Time</div><div class="big">60 <span class="trend up">93.8%</span></div></div><div class="card"><div class="stat-label">Avg. Turnaround</div><div class="big">1.4 <span class="sub">days</span></div></div></div>
+<div class="card"><table class="table"><tr><th>PROJECT</th><th>PIC</th><th>REQUEST</th><th>DEADLINE</th><th>STATUS</th><th>SLA</th></tr>
+<tr><td>Poster Midnight Sale</td><td>Raka</td><td>16 Sep</td><td>17 Sep</td><td><span class="tag done">DONE</span></td><td>100%</td></tr><tr><td>Social Feed TAG</td><td>Raka</td><td>17 Sep</td><td>18 Sep</td><td><span class="tag">ON PROGRESS</span></td><td>—</td></tr><tr><td>Banner Keandra</td><td>Naya</td><td>13 Sep</td><td>15 Sep</td><td><span class="tag late">LATE</span></td><td>0%</td></tr></table></div></section>
+</main></div>
+<script>
+function show(id,btn){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active');document.getElementById('crumb').textContent=id.toUpperCase();setTimeout(initCharts,50)}
+let made={};
+function initCharts(){
+ const common={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{color:'#778092'}},y:{grid:{color:'#252a34'},ticks:{color:'#778092'}}}};
+ if(!made.o){made.o=1;new Chart(document.getElementById('overview'),{type:'line',data:{labels:['Apr','May','Jun','Jul','Aug','Sep'],datasets:[{data:[62,74,69,88,104,128],tension:.4,borderWidth:2,pointRadius:3},{data:[4.8,5.4,6.1,6.8,7.9,8.7],tension:.4,borderWidth:2,pointRadius:3}]},options:common})}
+ if(document.getElementById('leads')&&!made.l){made.l=1;new Chart(document.getElementById('leads'),{type:'line',data:{labels:['Apr','May','Jun','Jul','Aug','Sep'],datasets:[{data:[1210,1450,1530,1790,2297,2481],tension:.4,borderWidth:2,pointRadius:3}]},options:common});new Chart(document.getElementById('source'),{type:'doughnut',data:{labels:['Social','Website','Event','Referral'],datasets:[{data:[48,24,16,12],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'#aab2c0',boxWidth:8}}}}})}
+ if(document.getElementById('socialChart')&&!made.s){made.s=1;new Chart(document.getElementById('socialChart'),{type:'bar',data:{labels:['Apr','May','Jun','Jul','Aug','Sep'],datasets:[{data:[.051,.058,.064,.071,.079,.087],borderWidth:0},{data:[.81,1.02,1.12,1.29,1.55,1.84],borderWidth:0}]},options:common})}
+}
+initCharts();
+</script>
+</body></html>
